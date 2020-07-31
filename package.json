@@ -14,8 +14,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "koatty": "^2.x.x",
-    "think_static": "^2.x.x",
-    "typeorm": "^0.2.25"
+    "think_static": "^2.x.x"
   },
   "devDependencies": {
     "@types/koa": "^2.x.x",
