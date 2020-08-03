@@ -1,4 +1,5 @@
 import { Tools } from "../../utils/tools";
+import { Situation } from '../base/Situation';
 
 export abstract class BaseCard {
   constructor (color: number, num: number) {
@@ -14,6 +15,6 @@ export abstract class BaseCard {
   random: number; // 用于生成牌后的打乱
 
   abstract canUse(thelastCard: BaseCard): boolean;
-  abstract effect()
+  abstract effect(situation: Situation): any;
 
 }

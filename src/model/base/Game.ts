@@ -1,20 +1,35 @@
-import { User } from './user';
+import { User } from './User';
+import { Situation } from './Situation';
 import { CardQueue } from './CardQueue';
+import { BaseCard } from '../card/BaseCard';
 
 export class Game {
-  direction: boolean; // true顺时针，false逆时针
-  totalEffect: number; // 说是effect，实际就是加多少张牌
-  curUser: User;
+  situation: Situation; // 当前局势，（颜色，数值，方向，加牌量）
+  curUser: User; // 当前用户指轮到出牌的用户
   cardQueue: CardQueue;
+  gameRunning = true;
 
-  affect () {
-    const cards = this.cardQueue.shiftCards(this.totalEffect)
+  // 出牌的方法
+  async play () {
+    while (this.gameRunning) {
+      const card = await this.curUser.play()
+      if (card === null) {
+        this.affectUser(this.curUser);
+      } else {
+        this.cardEffect(card);
+      }
+    }
+  }
+
+  cardEffect (card: BaseCard) {
+    card.effect(this.situation);
+  }
+
+  affectUser (user: User = this.curUser) {
+    const cards = this.cardQueue.getCards(this.situation.total)
     console.debug(cards)
-    this.curUser.cards.push(...cards);
-    this.clearEffect();
+    user.cards.push(...cards);
+    this.situation.clearTotal()
   }
 
-  clearEffect () {
-    this.totalEffect = 0;
-  }
 }

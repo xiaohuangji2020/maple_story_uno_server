@@ -1,4 +1,5 @@
 import { BaseCard } from './BaseCard';
+import { Situation } from '../base/Situation';
 
 export class PassCard extends BaseCard {
   constructor (color: number) {
@@ -7,8 +8,9 @@ export class PassCard extends BaseCard {
 
   readonly type: number = 30;
 
-  effect () {
-    return 0;
+  effect (situation: Situation) {
+    situation.num = this.num;
+    situation.color = this.color;
   }
 
   canUse (thelastCard: BaseCard) {

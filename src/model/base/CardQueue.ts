@@ -9,7 +9,7 @@ export class CardQueue {
   cardQueue: BaseCard[];
 
   generateCards () {
-    const cardQueue = []
+    const cardQueue: BaseCard[] = []
     Constant.CARD_COLORS.forEach((color) => {
       // 普通卡
       Constant.CARD_NUMBERS.forEach((number) => {
@@ -33,8 +33,8 @@ export class CardQueue {
     this.cardQueue = cardQueue
   }
 
-  shiftCards (num: number) {
-    let cards = [];
+  getCards (num: number) {
+    let cards: BaseCard[] = [];
     if (this.cardQueue.length < num) {
       cards = this.cardQueue;
       num -= this.cardQueue.length;
