@@ -9,18 +9,18 @@ import { App } from '../App';
 
 @Controller()
 export class IndexController extends BaseController {
-    app: App;
+  app: App;
 
-    /**
-     * Custom constructor
-     *
-     */
-    init() {
-        //...
-    }
+  /**
+   * Custom constructor
+   *
+   */
+  init() {
+    //...
+  }
 
-    @GetMapping("/")
-    index(@PathVariable("path") path: string) {
-        return this.ok('Hello, Koatty!');
-    }
+  @GetMapping("/")
+  index(@PathVariable("path") path: string) {
+    return this.ok('Hello, Koatty!');
+  }
 }

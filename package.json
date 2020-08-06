@@ -14,6 +14,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "koatty": "^2.x.x",
+    "nodejs-websocket": "^1.7.2",
     "think_static": "^2.x.x"
   },
   "devDependencies": {
