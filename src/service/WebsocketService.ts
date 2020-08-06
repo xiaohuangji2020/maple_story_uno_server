@@ -7,47 +7,38 @@
 import ws from 'nodejs-websocket';
 import { Service, BaseService } from 'koatty';
 import { App } from '../App';
-import { Message } from '../model/base/Message';
+import { Message } from '../model/message/Message';
+import { User } from '../model/base/User';
+import { Platform } from '../model/base/Platform';
 
 @Service()
 export class WebsocketService extends BaseService {
   app: App;
   private port = 3002;
-  private conn: any;
+  private server: any;
 
   /**
    * Custom constructor
    *
    */
   init() {
-    ws.createServer((conn: any) => {
-      console.log('----------create websocket server----------');
-      this.conn = conn;
-      this.onMessage(conn);
-      this.onClose(conn);
-      this.onError(conn);
-    }).listen(this.port);
+    this.server = ws.createServer().listen(this.port);
+    this.onConnect()
   }
 
-  sendMessage(msg: Message, conn = this.conn) {
+  sendMessage(msg: Message, conn: any) {
     conn.sendText(msg);
   }
 
-  onMessage(conn = this.conn) {
-    conn.on('text', (str: string) => {
-      console.log('收到的信息为:' + str)
-    });
+  onConnect() {
+    this.server.on('connection', (conn: any) => {
+      console.log('----------new connection----------');
+      this.createUser(conn);
+    })
   }
 
-  onClose(conn = this.conn) {
-    conn.on('close', (code: number, reason: string) => {
-      console.log(`关闭连接, code${code}, ${reason}`)
-    });
-  }
-
-  onError(conn = this.conn) {
-    conn.on('error', (code: number, reason: string) => {
-      console.log(`异常关闭, code${code}, ${reason}`)
-    });
+  createUser (conn: any) {
+    const user = new User(conn);
+    Platform.addUser(user);
   }
 }
