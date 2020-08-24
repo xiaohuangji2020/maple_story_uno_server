@@ -18,7 +18,7 @@ export class Game {
       this.cardEffect(card);
     }
     // 处理后，通知下一个玩家出牌
-    this.curUser.play()
+    this.curUser.notifyUserTurn()
   }
 
   cardEffect (card: BaseCard) {

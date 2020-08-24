@@ -26,15 +26,6 @@ export class User {
     this.onError();
   }
 
-  async play () {
-    // 通知客户端到你了，并且告知用户哪些牌可以用
-    this.notifyUserTurn()
-    // 等待用户出牌
-    // 暂且返回一张
-    return this.cards[0]
-  }
-
-  // 通知用户
   notifyUserTurn () {
     this.sendMessage(MessageConstants.IS_YOUR_TURN())
   }
@@ -43,6 +34,11 @@ export class User {
   playCard (card: BaseCard) {
     const curRoom = Platform.getRoom(this.curRoomId)
     curRoom.game.play(card)
+  }
+
+  speak (message: Message) {
+    const curRoom = Platform.getRoom(this.curRoomId)
+    curRoom.broadcastMsg(message)
   }
 
   enterRoom (message: Message) {

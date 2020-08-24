@@ -23,4 +23,8 @@ export class Room {
   getUsers() {
     return Object.values(this.users);
   }
+
+  broadcastMsg(msg: Message) {
+    // todo 广播消息
+  }
 }
