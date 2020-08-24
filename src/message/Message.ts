@@ -10,7 +10,7 @@ export class Message{
   type: number;
       
   msg?: string;
-  data?: any;
+  body?: any;
 
   constructor (msgStr?: any) {
     if (msgStr) {
@@ -18,7 +18,7 @@ export class Message{
       this.code = msg.code;
       this.type = msg.type;
       this.msg = msg.msg;
-      this.data = msg.data;
+      this.body = msg.body;
     }
   }
 }

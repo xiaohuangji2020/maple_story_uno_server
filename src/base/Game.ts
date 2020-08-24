@@ -10,15 +10,15 @@ export class Game {
   gameRunning = true;
 
   // 出牌的方法
-  async play () {
-    while (this.gameRunning) {
-      const card = await this.curUser.play()
-      if (card === null) {
-        this.affectUser(this.curUser);
-      } else {
-        this.cardEffect(card);
-      }
+  play (card: BaseCard) {
+    // todo 这个null，是需要用特殊牌来代替，还是就是null
+    if (card === null) {
+      this.affectUser(this.curUser);
+    } else {
+      this.cardEffect(card);
     }
+    // 处理后，通知下一个玩家出牌
+    this.curUser.play()
   }
 
   cardEffect (card: BaseCard) {

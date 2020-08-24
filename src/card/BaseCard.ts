@@ -1,4 +1,4 @@
-import { Tools } from "../../utils/tools";
+import { Tools } from "../utils/tools";
 import { Situation } from '../base/Situation';
 
 export abstract class BaseCard {

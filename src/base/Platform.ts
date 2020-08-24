@@ -33,4 +33,13 @@ export class Platform {
   static getRoom(roomId: string) {
     return Platform.rooms[roomId]
   }
+
+  static getRoomIfNot(roomId: string) {
+    let room = Platform.rooms[roomId];
+    if (!room) {
+      room = new Room(roomId)
+      Platform.addRoom(room)
+    }
+    return room;
+  }
 }

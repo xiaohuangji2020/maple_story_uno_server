@@ -3,7 +3,6 @@ import { Message } from '../message/Message';
 import { MessageConstants } from '../message/MessageConstants';
 import { MessageManager } from '../message/MessageManager';
 import { Platform } from './Platform';
-import { Room } from './Room';
 
 export class User {
   id: string;
@@ -41,19 +40,14 @@ export class User {
   }
 
   // 出牌
-  playCard (message: Message) {
+  playCard (card: BaseCard) {
     const curRoom = Platform.getRoom(this.curRoomId)
-    curRoom.messages.push(message)
+    curRoom.game.play(card)
   }
 
   enterRoom (message: Message) {
-    this.curRoomId = message.data.roomId;
-    let curRoom = Platform.getRoom(message.data.roomId)
-    if (!curRoom) {
-      curRoom = new Room(this.curRoomId)
-      this.curRoomId = curRoom.id
-      Platform.addRoom(curRoom)
-    }
+    this.curRoomId = message.body.roomId;
+    let curRoom = Platform.getRoomIfNot(message.body.roomId)
     curRoom.addUser(this)
   }
 
