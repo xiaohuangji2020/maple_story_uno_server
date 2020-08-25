@@ -1,11 +1,12 @@
 import { Message } from './Message';
-import { User } from '../base/User';
+import { UserAbstract } from '../user/UserAbstract';
+import { Player } from '../user/Player';
 import { CardFactory } from '../card/CardFactory';
 import { MessageConstants } from './MessageConstants';
 
 export class MessageManager {
 
-  static deal (msg: Message, user: User) {
+  static deal (msg: Message, user: UserAbstract) {
     switch (msg.type) {
       case 10001:
         // 初始化消息
@@ -21,7 +22,9 @@ export class MessageManager {
       case 10004:
         // 出牌消息
         const card = CardFactory.getNewCard(msg.body);
-        user.playCard(card);
+        if (user instanceof Player) {
+          user.playCard(card);
+        }
         break;
       case 10005:
         const message = MessageConstants.TEXT_MESSAGE(msg.body.text);

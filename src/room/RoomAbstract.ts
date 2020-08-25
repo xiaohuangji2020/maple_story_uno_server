@@ -1,27 +1,28 @@
-import { Game } from './Game';
-import { User } from './User';
+import { UserAbstract } from '../user/UserAbstract';
 import { Message } from '../message/Message';
 
-export class Room {
+export class RoomAbstract {
   id: string;
-  game: Game;
-  users: {[propName: string]: User} = {};
-  messages: Message[];
+  users: {[propName: string]: UserAbstract} = {};
 
   constructor (roomId?: string) {
     this.id = roomId || ('room' + Date.now() + Math.random() * 1000)
   }
 
-  addUser(user: User) {
+  addUser(user: UserAbstract) {
     this.users[user.id] = user;
   }
 
-  deleteUser(user: User) {
+  deleteUser(user: UserAbstract) {
     delete this.users[user.id]
   }
 
   getUsers() {
     return Object.values(this.users);
+  }
+
+  getUser(userId: string) {
+    return this.users[userId]
   }
 
   broadcastMsg(msg: Message) {

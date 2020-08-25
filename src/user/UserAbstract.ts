@@ -1,10 +1,10 @@
-import { BaseCard } from '../card/BaseCard';
 import { Message } from '../message/Message';
 import { MessageConstants } from '../message/MessageConstants';
 import { MessageManager } from '../message/MessageManager';
-import { Platform } from './Platform';
+import { MyGlobal } from '../base/MyGlobal';
+import { RoomAbstract } from '../room/RoomAbstract';
 
-export class User {
+export class UserAbstract {
   id: string;
   name: string;
   avatar: string;
@@ -12,10 +12,11 @@ export class User {
   conn: any;
   
   curRoomId: string;
-  cards: BaseCard[] = [];
 
   constructor (conn: any) {
-    this.id = 'user' + Date.now() + Math.random() * 1000
+    this.id = 'user' + Date.now() + Math.random() * 1000;
+    // 默认都去大厅
+    this.curRoomId = '1001';
     this.conn = conn;
     this.init();
   }
@@ -27,7 +28,11 @@ export class User {
   }
   // 用户发出消息
   speak (message: Message) {
-    const curRoom = Platform.getRoom(this.curRoomId)
+    let curRoom: RoomAbstract = MyGlobal.platform.getGameRoom(this.curRoomId)
+    if (!curRoom) {
+      // 当前房间不存在，则默认为大厅
+      curRoom = MyGlobal.platform;
+    }
     curRoom.broadcastMsg(message)
   }
 
@@ -36,20 +41,9 @@ export class User {
     this.sendMessage(MessageConstants.IS_YOUR_TURN())
   }
 
-  notifyUserTurn () {
-    this.listen(MessageConstants.IS_YOUR_TURN())
-  }
-
-
-  // 出牌
-  playCard (card: BaseCard) {
-    const curRoom = Platform.getRoom(this.curRoomId)
-    curRoom.game.play(card)
-  }
-
   enterRoom (message: Message) {
     this.curRoomId = message.body.roomId;
-    let curRoom = Platform.getRoomIfNot(message.body.roomId)
+    let curRoom = MyGlobal.platform.getGameRoomIfNot(message.body.roomId)
     curRoom.addUser(this)
   }
 

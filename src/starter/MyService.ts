@@ -5,9 +5,9 @@
  * @ version: 2020-05-18 11:37:14
  */
 import ws from 'nodejs-websocket';
-import { User } from '../base/User';
-import { Platform } from '../base/Platform';
+import { Player } from '../user/Player';
 import { Message } from '../message/Message';
+import { MyGlobal } from '../base/MyGlobal';
 
 
 export class MyService {
@@ -30,12 +30,13 @@ export class MyService {
   static onConnect() {
     MyService.server.on('connection', (conn: any) => {
       console.log('----------new connection----------');
+      // 这里可以创建其他类型用户
       MyService.createUser(conn);
     })
   }
 
   static createUser (conn: any) {
-    const user = new User(conn);
-    Platform.addUser(user);
+    const user = new Player(conn);
+    MyGlobal.platform.addUser(user);
   }
 }
