@@ -26,5 +26,8 @@ export class Room {
 
   broadcastMsg(msg: Message) {
     // todo 广播消息
+    this.getUsers().forEach(user => {
+      user.listen(msg)
+    })
   }
 }

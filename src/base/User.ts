@@ -25,20 +25,26 @@ export class User {
     this.onClose();
     this.onError();
   }
+  // 用户发出消息
+  speak (message: Message) {
+    const curRoom = Platform.getRoom(this.curRoomId)
+    curRoom.broadcastMsg(message)
+  }
 
-  notifyUserTurn () {
+  // 用户接收消息
+  listen (message: Message) {
     this.sendMessage(MessageConstants.IS_YOUR_TURN())
   }
+
+  notifyUserTurn () {
+    this.listen(MessageConstants.IS_YOUR_TURN())
+  }
+
 
   // 出牌
   playCard (card: BaseCard) {
     const curRoom = Platform.getRoom(this.curRoomId)
     curRoom.game.play(card)
-  }
-
-  speak (message: Message) {
-    const curRoom = Platform.getRoom(this.curRoomId)
-    curRoom.broadcastMsg(message)
   }
 
   enterRoom (message: Message) {
