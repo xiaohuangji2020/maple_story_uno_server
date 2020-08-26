@@ -16,7 +16,7 @@ export class UserAbstract {
   constructor (conn: any) {
     this.id = 'user' + Date.now() + Math.random() * 1000;
     // 默认都去大厅
-    this.curRoomId = '1001';
+    this.curRoomId = MyGlobal.PLATFORM_ID;
     this.conn = conn;
     this.init();
   }
@@ -38,13 +38,30 @@ export class UserAbstract {
 
   // 用户接收消息
   listen (message: Message) {
-    this.sendMessage(MessageConstants.IS_YOUR_TURN())
+    this.sendMessage(message);
   }
 
   enterRoom (message: Message) {
+    this.clearLastRoomIfNeed();
     this.curRoomId = message.body.roomId;
     let curRoom = MyGlobal.platform.getGameRoomIfNot(message.body.roomId)
     curRoom.addUser(this)
+  }
+
+  leaveRoom (message: Message) {
+    this.clearLastRoomIfNeed();
+    this.curRoomId = MyGlobal.PLATFORM_ID
+  }
+
+  clearLastRoomIfNeed () {
+    const lastRoomId = this.curRoomId;
+    if (lastRoomId !== MyGlobal.PLATFORM_ID) {
+      const lastRoom = MyGlobal.platform.getGameRoom(lastRoomId);
+      lastRoom.deleteUser(this);
+      if (!lastRoom.userCount()) {
+        MyGlobal.platform.deleteGameRoom(lastRoom)
+      }
+    }
   }
 
   sendMessage (message: Message) {

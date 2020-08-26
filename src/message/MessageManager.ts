@@ -16,9 +16,11 @@ export class MessageManager {
       case 10002:
         // 用户进入房间
         user.enterRoom(msg);
+        break;
       case 10003:
         // 用户离开房间
-        user.enterRoom(msg);
+        user.leaveRoom(msg);
+        break;
       case 10004:
         // 出牌消息
         const card = CardFactory.getNewCard(msg.body);

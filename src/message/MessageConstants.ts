@@ -6,7 +6,7 @@ export class MessageConstants {
       code: 0,
       type: 20001,
       from: 0,
-      data: {}
+      body: {}
     }) 
   }
 
@@ -14,7 +14,7 @@ export class MessageConstants {
     return new Message({
       code: 0,
       type: 10005,
-      data: { text }
+      body: { text }
     })
   }
 }

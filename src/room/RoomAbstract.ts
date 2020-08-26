@@ -25,6 +25,10 @@ export class RoomAbstract {
     return this.users[userId]
   }
 
+  userCount() {
+    return Object.keys(this.users).length;
+  }
+
   broadcastMsg(msg: Message) {
     // todo 广播消息
     this.getUsers().forEach(user => {

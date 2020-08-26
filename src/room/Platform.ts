@@ -7,7 +7,6 @@ export class Platform extends RoomAbstract{
 
   constructor() {
     super('1001')
-    
   }
 
   addGameRoom(room: GameRoom) {
