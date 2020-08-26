@@ -1,4 +1,7 @@
+import { Tools } from '../utils/tools';
+
 export class Message{
+  id: string;
   code: number;
   /**
    * 客户端->服务器消息
@@ -14,16 +17,18 @@ export class Message{
       
   msg?: string;
   body?: any;
-  from?: number;
+  from?: object;
+  to?: object[];
 
   constructor (msgStr?: any) {
     if (msgStr) {
       const msg = typeof msgStr === 'string' ? JSON.parse(msgStr) : msgStr;
+      this.id = String(Date.now()) + Tools.getRandom();
       this.code = msg.code;
       this.type = msg.type;
-      this.msg = msg.msg;
-      this.body = msg.body;
-      this.from = msg.from;
+      this.msg = msg.msg || '';
+      this.body = msg.body || {};
+      this.from = msg.from || {};
     }
   }
 }

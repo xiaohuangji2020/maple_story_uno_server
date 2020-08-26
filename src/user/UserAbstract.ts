@@ -7,7 +7,7 @@ import { RoomAbstract } from '../room/RoomAbstract';
 export class UserAbstract {
   id: string;
   name: string;
-  avatar: string;
+  avatar?: string;
 
   conn: any;
   
@@ -33,7 +33,7 @@ export class UserAbstract {
       // 当前房间不存在，则默认为大厅
       curRoom = MyGlobal.platform;
     }
-    curRoom.broadcastMsg(message)
+    curRoom.broadcastMsg(message);
   }
 
   // 用户接收消息

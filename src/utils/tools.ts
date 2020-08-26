@@ -1,5 +1,5 @@
 export class Tools {
-  static readonly getRandom = () => {
-    return Math.round(Math.random() * 10000)
+  static readonly getRandom = (bit = 10000) => {
+    return Math.round(Math.random() * bit)
   }
 }

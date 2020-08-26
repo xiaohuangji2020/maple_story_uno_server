@@ -6,12 +6,21 @@ import { MessageConstants } from './MessageConstants';
 
 export class MessageManager {
 
+  static completeMsg(msg: Message, user: UserAbstract) {
+    msg.from = {
+      id: user.id,
+      name: user.name
+    }
+  }
+
   static deal (msg: Message, user: UserAbstract) {
+    MessageManager.completeMsg(msg, user);
+
     switch (msg.type) {
       case 10001:
         // 初始化消息
         user.name = msg.body.name;
-        user.avatar = msg.body.avatar;
+        // user.avatar = msg.body.avatar;
         break;
       case 10002:
         // 用户进入房间
@@ -29,9 +38,7 @@ export class MessageManager {
         }
         break;
       case 10005:
-        const message = MessageConstants.TEXT_MESSAGE(msg.body.text);
-        // 说话消息
-        user.speak(message);
+        user.speak(msg);
         break;
     }
   }
