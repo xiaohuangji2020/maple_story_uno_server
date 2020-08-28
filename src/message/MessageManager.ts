@@ -2,6 +2,7 @@ import { Message } from './Message';
 import { UserAbstract } from '../user/UserAbstract';
 import { Player } from '../user/Player';
 import { CardFactory } from '../card/CardFactory';
+import { MyGlobal } from '../base/MyGlobal';
 import { MessageConstants } from './MessageConstants';
 
 export class MessageManager {
@@ -40,6 +41,9 @@ export class MessageManager {
       case 10005:
         user.speak(msg);
         break;
+      case 10006:
+        const rooms = MyGlobal.platform.getGameRooms();
+        user.listen(MessageConstants.ROOM_INFO(rooms));
     }
   }
 }

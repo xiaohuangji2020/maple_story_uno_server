@@ -57,6 +57,7 @@ export class UserAbstract {
     const lastRoomId = this.curRoomId;
     if (lastRoomId !== MyGlobal.PLATFORM_ID) {
       const lastRoom = MyGlobal.platform.getGameRoom(lastRoomId);
+      if (!lastRoom) return;
       lastRoom.deleteUser(this);
       if (!lastRoom.userCount()) {
         MyGlobal.platform.deleteGameRoom(lastRoom)
@@ -79,6 +80,7 @@ export class UserAbstract {
   onClose() {
     this.conn.on('close', (code: number, reason: string) => {
       console.log(`关闭连接, code${code}, ${reason}, ${this.name}离开了`)
+      this.clearLastRoomIfNeed();
     });
   }
 
