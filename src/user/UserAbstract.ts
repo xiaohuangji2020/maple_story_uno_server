@@ -1,5 +1,4 @@
 import { Message } from '../message/Message';
-import { MessageConstants } from '../message/MessageConstants';
 import { MessageManager } from '../message/MessageManager';
 import { MyGlobal } from '../base/MyGlobal';
 import { RoomAbstract } from '../room/RoomAbstract';

@@ -29,9 +29,12 @@ export class RoomAbstract {
     return Object.keys(this.users).length;
   }
 
-  broadcastMsg(msg: Message) {
+  broadcastMsg(msg: Message, excludeUserIds?: string[]) {
     // todo 广播消息
     this.getUsers().forEach(user => {
+      if (excludeUserIds && excludeUserIds.includes(user.id)) {
+        return;
+      }
       user.listen(msg)
     })
   }

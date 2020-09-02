@@ -3,7 +3,7 @@ import { UserAbstract } from '../user/UserAbstract';
 import { Player } from '../user/Player';
 import { CardFactory } from '../card/CardFactory';
 import { MyGlobal } from '../base/MyGlobal';
-import { MessageConstants } from './MessageConstants';
+import { MessageFactory } from './MessageFactory';
 
 export class MessageManager {
 
@@ -66,27 +66,55 @@ export class MessageManager {
           MessageManager.broadcastUserEnter(user);
         }
         break;
+      case 10011:
+        MessageManager.dealUserReady(user, msg);
+        break;
+      case 10012:
+        MessageManager.dealUserReady(user, msg);
+        break;
     }
   }
 
-  static broadcastUserEnter(user) {
+  static dealUserReady(user: UserAbstract, msg: Message) {
+    if (!(user instanceof Player)) {
+      // 这里可以发送错误信息
+      return;
+    }
+    const curRoom = MyGlobal.platform.getGameRoom(user.curRoomId)
+    if (!curRoom) {
+      // 这里可以发送错误信息
+      return;
+    }
+    switch(msg.type) {
+      case 10011:
+        user.getReady();
+        curRoom.broadcastMsg(MessageFactory.USER_READY(user), [user.id]);
+        break;
+      case 10012:
+        user.cancelReady();
+        curRoom.broadcastMsg(MessageFactory.USER_CANCEL_READY(user), [user.id]);
+        break;
+    }
+  }
+
+  static broadcastUserEnter(user: UserAbstract) {
     const curRoom = MyGlobal.platform.getGameRoom(user.curRoomId) || MyGlobal.platform;
     curRoom.getUsers().forEach(eachUser => {
       if (eachUser.id === user.id) {
         return;
       }
-      eachUser.listen(MessageConstants.USER_ENTER(user));
+      eachUser.listen(MessageFactory.USER_ENTER(user));
       MessageManager.tellUserCurRoomInfo(eachUser);
       MessageManager.tellUserRoomsInfo(eachUser);
     })
   }
 
-  static tellUserRoomsInfo(user) {
+  static tellUserRoomsInfo(user: UserAbstract) {
     const rooms = MyGlobal.platform.getGameRooms();
-    user.listen(MessageConstants.ROOM_INFO(rooms));
+    user.listen(MessageFactory.ROOM_INFO(rooms));
   }
 
-  static tellUserCurRoomInfo(user) {
-    user.listen(MessageConstants.CUR_ROOM_INFO(MyGlobal.platform.getGameRoom(user.curRoomId) || MyGlobal.platform));
+  static tellUserCurRoomInfo(user: UserAbstract) {
+    user.listen(MessageFactory.CUR_ROOM_INFO(MyGlobal.platform.getGameRoom(user.curRoomId) || MyGlobal.platform));
   }
 }
