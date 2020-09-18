@@ -28,13 +28,16 @@ export class MessageManager {
       case 10002:
         // 用户进入房间
         user.enterRoom(msg);
+        MessageManager.tellUserEnterRoomSuccess(user);
         MessageManager.tellUserCurRoomInfo(user);
+        // todo 应该不需要告知全部房间信息了
         MessageManager.tellUserRoomsInfo(user);
         MessageManager.broadcastUserEnter(user);
         break;
       case 10003:
         // 用户离开房间
         user.leaveRoom(msg);
+        MessageManager.tellUserEnterRoomSuccess(user);
         MessageManager.tellUserCurRoomInfo(user);
         MessageManager.tellUserRoomsInfo(user);
         break;
@@ -116,5 +119,9 @@ export class MessageManager {
 
   static tellUserCurRoomInfo(user: UserAbstract) {
     user.listen(MessageFactory.CUR_ROOM_INFO(MyGlobal.platform.getGameRoom(user.curRoomId) || MyGlobal.platform));
+  }
+
+  static tellUserEnterRoomSuccess(user: UserAbstract) {
+    user.listen(MessageFactory.ENTER_ROOM_SUCCESS(user.curRoomId));
   }
 }

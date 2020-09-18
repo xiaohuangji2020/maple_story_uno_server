@@ -65,8 +65,9 @@ export class UserAbstract {
   }
 
   sendMessage (message: Message) {
-    console.log(message);
-    this.conn.sendText(JSON.stringify(message));
+    const msg = JSON.stringify(message)
+    console.log('发送的消息为:' + msg);
+    this.conn.sendText(msg);
   }
 
   onMessage() {

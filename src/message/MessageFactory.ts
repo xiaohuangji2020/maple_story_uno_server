@@ -89,4 +89,14 @@ export class MessageFactory {
       }
     })
   }
+
+  static readonly ENTER_ROOM_SUCCESS = (roomId: string) => {
+    return new Message({
+      code: 0,
+      type: 10015,
+      body: {
+        roomId
+      }
+    })
+  }
 }
