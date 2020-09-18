@@ -25,8 +25,12 @@ export class MessageFactory {
       code: 0,
       type: 10006,
       body: {
-        roomIds: rooms.map((room) => {
-          return room.id;
+        rooms: rooms.map((room) => {
+          return {
+            id: room.id,
+            name: room.name,
+            count: room.userCount()
+          }
         })
       }
     })
@@ -39,6 +43,7 @@ export class MessageFactory {
       body: {
         curRoom: {
           id: room.id,
+          name: room.name,
           userCount: room.userCount()
         }
       }

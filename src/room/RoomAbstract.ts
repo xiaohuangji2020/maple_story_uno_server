@@ -3,10 +3,12 @@ import { Message } from '../message/Message';
 
 export class RoomAbstract {
   id: string;
+  name: string
   users: {[propName: string]: UserAbstract} = {};
 
-  constructor (roomId?: string) {
+  constructor (roomId?: string, roomName?: string) {
     this.id = roomId || ('room' + Date.now() + Math.random() * 1000)
+    this.name = roomName || '房间'
   }
 
   addUser(user: UserAbstract) {

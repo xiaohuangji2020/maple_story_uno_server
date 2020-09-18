@@ -42,8 +42,8 @@ export class UserAbstract {
 
   enterRoom (message: Message) {
     this.clearLastRoomIfNeed();
-    this.curRoomId = message.body.roomId;
-    let curRoom = MyGlobal.platform.getGameRoomIfNot(message.body.roomId)
+    let curRoom = MyGlobal.platform.getGameRoomIfNot(message.body.roomId, message.body.roomName)
+    this.curRoomId = curRoom.id;
     curRoom.addUser(this)
   }
 
@@ -65,6 +65,7 @@ export class UserAbstract {
   }
 
   sendMessage (message: Message) {
+    console.log(message);
     this.conn.sendText(JSON.stringify(message));
   }
 

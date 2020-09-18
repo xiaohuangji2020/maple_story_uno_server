@@ -8,8 +8,8 @@ export class GameRoom extends RoomAbstract{
   readyStatus = 0;
   gameStatus = 0;
 
-  constructor (roomId?: string) {
-    super(roomId)
+  constructor (roomId?: string, roomName?: string) {
+    super(roomId, roomName)
   }
 
   async checkReady() {

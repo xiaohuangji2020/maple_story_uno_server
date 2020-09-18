@@ -5,7 +5,7 @@ export class Platform extends RoomAbstract{
   gameRooms: {[propName: string]: GameRoom} = {};
 
   constructor() {
-    super('1001')
+    super('1001', '大厅')
   }
 
   addGameRoom(room: GameRoom) {
@@ -24,10 +24,10 @@ export class Platform extends RoomAbstract{
     return this.gameRooms[roomId]
   }
 
-  getGameRoomIfNot(roomId: string) {
-    let room = this.gameRooms[roomId];
+  getGameRoomIfNot(roomId?: string, roomName?: string) {
+    let room = roomId && this.gameRooms[roomId];
     if (!room) {
-      room = new GameRoom(roomId)
+      room = new GameRoom(roomId, roomName)
       this.addGameRoom(room)
     }
     return room;
